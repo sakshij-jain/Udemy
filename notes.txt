@@ -2,4 +2,6 @@ ste.grider@gmail.com
 github.com/stephengrider
 repo - StephenGrider/ReduxSimpleStarter
 downward data flow - parenmt component should be responsible for fetching the data only either from api or from page
-first 30 lectures completed
+first 40 lectures completed
+in 41st do clone
+https://github.com/StephenGrider/ReduxSimpleStarter
