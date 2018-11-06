@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom'; //dont need ./ basically path as they are installed using npm, it will search in node_modules
 import YTSearch from 'youtube-api-search';
@@ -21,23 +22,31 @@ class App extends React.Component {
         super(props);
 
         this.state = {
-            videos: []
+            videos: [],
+            selectedVideo: null,
+            term: 'surfboards'
         };
+        this.videoSearch(this.state.term);
+    }
 
-        YTSearch({key: API_KEY, term: 'surfboards'}, (videos) => {
-            console.log(videos);
+    videoSearch(term) {
+        console.log(term);
+        YTSearch({key: API_KEY, term}, (videos) => {
             this.setState({
-                videos
+                videos,
+                selectedVideo: videos[0],
+                term
             });
-        });
+        }); 
     }
     render() {
-        const { videos } = this.state;
+        const videoSearch = _.debounce((term) => {this.videoSearch(term)}, 300)
+        const { videos, selectedVideo } = this.state;
         return (
             <div className="search videolist">
-                <SearchBar />
-                <VideoDetail video={videos[0]}/>
-                <VideoList videos={videos} />
+                <SearchBar onSearchTermChange={videoSearch}/>
+                <VideoDetail video={selectedVideo}/>
+                <VideoList videos={videos} onVideoSelect={selectedVideo => this.setState({selectedVideo})} />
             </div>
         )
     }
